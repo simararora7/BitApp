@@ -2,6 +2,7 @@ package com.simararora.bitapp.di
 
 import com.simararora.bitapp.common.DefaultSchedulersProvider
 import com.simararora.bitapp.common.SchedulersProvider
+import com.simararora.bitapp.features.tradingpairs.common.di.TradingPairCommonModule
 import com.simararora.bitapp.network.NetworkModule
 import dagger.Module
 import dagger.Provides
@@ -9,7 +10,8 @@ import javax.inject.Singleton
 
 @Module(
     includes = [
-        NetworkModule::class
+        NetworkModule::class,
+        TradingPairCommonModule::class
     ]
 )
 class AppModule {
