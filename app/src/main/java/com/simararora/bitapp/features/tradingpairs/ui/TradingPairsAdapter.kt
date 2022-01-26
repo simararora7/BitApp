@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.simararora.bitapp.common.extensions.setTextStyle
 import com.simararora.bitapp.databinding.ItemTradingPairBinding
 import com.simararora.bitapp.features.tradingpairs.presentation.model.TradingPairUIModel
 
@@ -18,7 +19,14 @@ class TradingPairsAdapter : RecyclerView.Adapter<TradingPairsAdapter.TradingPair
     }
 
     override fun onBindViewHolder(holder: TradingPairViewHolder, position: Int) {
-        holder.binding.tvSymbol.text = tradingPairs[position].symbol
+        val tradingPair = tradingPairs[position]
+        with(holder.binding) {
+            tvSymbol.text = tradingPair.symbol
+            tvLastDayPrice.text = tradingPair.lastPrice
+            tvDailyChange.text = tradingPair.dailyChangeRelative
+            tvLastDayPrice.setTextStyle(tradingPair.bodyTextStyle)
+            tvDailyChange.setTextStyle(tradingPair.bodyTextStyle)
+        }
     }
 
     override fun getItemCount() = tradingPairs.size

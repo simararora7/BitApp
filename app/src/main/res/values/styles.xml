@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BitAppText" />
+
+    <style name="BitAppText.H1" parent="BitAppText">
+        <item name="android:fontFamily">@font/maison_neue_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+        <item name="android:textColor">@color/text_heading_default</item>
+    </style>
+
+    <style name="BitAppText.B1" parent="BitAppText">
+        <item name="android:fontFamily">@font/maison_neue_demi</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+        <item name="android:textColor">@color/text_body_default</item>
+    </style>
+
+    <style name="BitAppText.B1.Negative" parent="BitAppText.B1">
+        <item name="android:textColor">@color/text_body_positive</item>
+    </style>
+
+    <style name="BitAppText.B1.Positive" parent="BitAppText.B1">
+        <item name="android:textColor">@color/text_body_negative</item>
+    </style>
+
+</resources>

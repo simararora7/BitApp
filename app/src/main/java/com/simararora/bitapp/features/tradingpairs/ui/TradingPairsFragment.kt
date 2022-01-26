@@ -11,12 +11,14 @@ import com.simararora.bitapp.common.ViewState
 import com.simararora.bitapp.common.extensions.exhaustive
 import com.simararora.bitapp.common.extensions.hide
 import com.simararora.bitapp.common.extensions.show
+import com.simararora.bitapp.common.extensions.showSnackBar
 import com.simararora.bitapp.databinding.FragmentTradingPairsBinding
 import com.simararora.bitapp.features.tradingpairs.di.TradingPairsComponent
 import com.simararora.bitapp.features.tradingpairs.presentation.TradingPairsViewModel
 import com.simararora.bitapp.features.tradingpairs.presentation.model.TradingPairUIModel
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
+
 
 class TradingPairsFragment : Fragment() {
 
@@ -65,6 +67,8 @@ class TradingPairsFragment : Fragment() {
                 adapter.updateTradingPairs(viewState.data)
             }
             is ViewState.Error -> {
+                binding.pbLoader.hide()
+                binding.root.showSnackBar(viewState.throwable.message ?: "")
             }
         }.exhaustive()
     }
