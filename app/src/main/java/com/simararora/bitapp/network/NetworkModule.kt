@@ -1,7 +1,10 @@
 package com.simararora.bitapp.network
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.simararora.bitapp.BuildConfig
+import com.simararora.bitapp.features.tradingpairs.data.deserializer.TickersResponseDeserializer
+import com.simararora.bitapp.features.tradingpairs.data.model.TickersResponse
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -23,10 +26,20 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun provideGson(
+        tickersResponseDeserializer: TickersResponseDeserializer
+    ): Gson {
+        return GsonBuilder()
+            .registerTypeAdapter(TickersResponse::class.java, tickersResponseDeserializer)
+            .create()
+    }
+
+    @Provides
+    @Singleton
     fun provideRetrofit(
-        okHttpClient: OkHttpClient
+        okHttpClient: OkHttpClient,
+        gson: Gson
     ): Retrofit {
-        val gson = GsonBuilder().create()
         return Retrofit.Builder()
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
