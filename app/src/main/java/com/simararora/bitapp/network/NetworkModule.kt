@@ -3,8 +3,8 @@ package com.simararora.bitapp.network
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.simararora.bitapp.BuildConfig
-import com.simararora.bitapp.features.tradingpairs.data.deserializer.TickersResponseDeserializer
-import com.simararora.bitapp.features.tradingpairs.data.model.TickersResponse
+import com.simararora.bitapp.features.tradingpairs.tradingpairlist.data.deserializer.TickerResponseDeserializer
+import com.simararora.bitapp.features.tradingpairs.tradingpairlist.data.model.TickerResponse
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -27,10 +27,10 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideGson(
-        tickersResponseDeserializer: TickersResponseDeserializer
+        tickerResponseDeserializer: TickerResponseDeserializer
     ): Gson {
         return GsonBuilder()
-            .registerTypeAdapter(TickersResponse::class.java, tickersResponseDeserializer)
+            .registerTypeAdapter(TickerResponse::class.java, tickerResponseDeserializer)
             .create()
     }
 
