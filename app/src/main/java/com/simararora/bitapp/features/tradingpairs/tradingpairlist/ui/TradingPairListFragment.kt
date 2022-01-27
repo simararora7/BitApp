@@ -15,6 +15,8 @@ import com.simararora.bitapp.common.extensions.showSnackBar
 import com.simararora.bitapp.databinding.FragmentTradingPairsBinding
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.di.TradingPairListComponent
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.presentation.TradingPairListViewModel
+import com.simararora.bitapp.features.tradingpairs.tradingpairlist.presentation.TradingPairsAction
+import com.simararora.bitapp.features.tradingpairs.tradingpairlist.presentation.TradingPairsAction.InitialLoadAction
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.presentation.model.TradingPairUIModel
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
@@ -56,7 +58,8 @@ class TradingPairListFragment : Fragment() {
             adapter = this@TradingPairListFragment.adapter
         }
 
-        viewModel.tradingPairStateChanges().observe(viewLifecycleOwner, ::renderViewState)
+        viewModel.tradingPairStateChanges.observe(viewLifecycleOwner, ::renderViewState)
+        viewModel.handleAction(InitialLoadAction)
     }
 
     private fun renderViewState(viewState: ViewState<List<TradingPairUIModel>>) {

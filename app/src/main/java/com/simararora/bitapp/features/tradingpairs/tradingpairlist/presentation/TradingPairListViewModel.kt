@@ -10,6 +10,7 @@ import com.simararora.bitapp.common.ViewState.*
 import com.simararora.bitapp.common.extensions.exhaustive
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.di.TradingPairListScope
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.domain.usecase.GetTradingPairs
+import com.simararora.bitapp.features.tradingpairs.tradingpairlist.presentation.TradingPairsAction.InitialLoadAction
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.presentation.TradingPairsAction.TradingPairClickAction
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.presentation.mapper.TradingPairViewModelMapper
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.presentation.model.TradingPairUIModel
@@ -25,19 +26,15 @@ class TradingPairListViewModel @Inject constructor(
 
     private var getTradingPairsDisposable by SingleDisposable()
 
-    private var tradingPairStateChangesLiveData: MutableLiveData<ViewState<List<TradingPairUIModel>>>? =
-        null
+    private var tradingPairStateChangesLiveData: MutableLiveData<ViewState<List<TradingPairUIModel>>> =
+        MutableLiveData()
+    val tradingPairStateChanges: LiveData<ViewState<List<TradingPairUIModel>>>
+        get() = tradingPairStateChangesLiveData
 
-    fun tradingPairStateChanges(): LiveData<ViewState<List<TradingPairUIModel>>> {
-        if (tradingPairStateChangesLiveData == null) {
-            tradingPairStateChangesLiveData = MutableLiveData()
-            getTradingPairs()
-        }
-        return tradingPairStateChangesLiveData!!
-    }
 
     fun handleAction(action: TradingPairsAction) {
         when (action) {
+            is InitialLoadAction -> getTradingPairs()
             is TradingPairClickAction -> tradingPairListNavigator
                 .navigateToTradingPairDetailScreen(action.symbol)
         }.exhaustive()
@@ -52,7 +49,7 @@ class TradingPairListViewModel @Inject constructor(
             .startWith(Loading())
             .onErrorReturn { Error(it) }
             .subscribe { viewState ->
-                tradingPairStateChangesLiveData?.postValue(viewState)
+                tradingPairStateChangesLiveData.postValue(viewState)
             }
     }
 
