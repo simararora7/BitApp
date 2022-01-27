@@ -31,7 +31,6 @@ class TradingPairListViewModel @Inject constructor(
     val tradingPairStateChanges: LiveData<ViewState<List<TradingPairUIModel>>>
         get() = tradingPairStateChangesLiveData
 
-
     fun handleAction(action: TradingPairsAction) {
         when (action) {
             is InitialLoadAction -> getTradingPairs()

@@ -3,7 +3,6 @@ package com.simararora.bitapp.features.tradingpairs.tradingpairdetails.data.serv
 import com.google.gson.Gson
 import com.simararora.bitapp.BuildConfig
 import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.data.model.TradeResponse
-import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.data.model.TradingPairDetailResponse
 import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.data.model.WebSocketMessage
 import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.di.TradingPairDetailScope
 import io.reactivex.Observable
@@ -15,9 +14,10 @@ import javax.inject.Inject
 class TradesWebSocketService @Inject constructor(
     private val gson: Gson
 ) {
-    private val tradingPairChangesSubject = PublishSubject.create<TradeResponse>()
+    private lateinit var tradesChangeSubject: PublishSubject<TradeResponse>
 
     fun observeTradeChanges(symbol: String): Observable<TradeResponse> {
+        tradesChangeSubject = PublishSubject.create()
         val request = Request.Builder()
             .url(BuildConfig.SOCKET_URL)
             .build()
@@ -26,7 +26,7 @@ class TradesWebSocketService @Inject constructor(
         val okHttpClient = OkHttpClient.Builder().build()
         val webSocket = okHttpClient.newWebSocket(request, listener)
         okHttpClient.dispatcher.executorService.shutdown()
-        return tradingPairChangesSubject.hide()
+        return tradesChangeSubject.hide()
             .doFinally {
                 webSocket.close(1000, null)
             }
@@ -36,10 +36,15 @@ class TradesWebSocketService @Inject constructor(
         try {
             val tradeResponse =
                 gson.fromJson(message, TradeResponse::class.java)
-            tradingPairChangesSubject.onNext(tradeResponse)
+            tradesChangeSubject.onNext(tradeResponse)
         } catch (e: Exception) {
-
+            // No error is propagated to UI
+            // Individual message is discarded
         }
+    }
+
+    private fun dispatchError(throwable: Throwable) {
+        tradesChangeSubject.onError(throwable)
     }
 
     inner class TradesSocketListener(private val symbol: String) : WebSocketListener() {
@@ -53,6 +58,11 @@ class TradesWebSocketService @Inject constructor(
         override fun onMessage(webSocket: WebSocket, text: String) {
             super.onMessage(webSocket, text)
             dispatchMessage(text)
+        }
+
+        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+            super.onFailure(webSocket, t, response)
+            dispatchError(t)
         }
     }
 }

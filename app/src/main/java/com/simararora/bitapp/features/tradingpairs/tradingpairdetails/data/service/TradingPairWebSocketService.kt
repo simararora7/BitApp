@@ -14,9 +14,10 @@ import javax.inject.Inject
 class TradingPairWebSocketService @Inject constructor(
     private val gson: Gson
 ) {
-    private val tradingPairChangesSubject = PublishSubject.create<TradingPairDetailResponse>()
+    private lateinit var tradingPairChangesSubject: PublishSubject<TradingPairDetailResponse>
 
     fun observeTradingPairChanges(symbol: String): Observable<TradingPairDetailResponse> {
+        tradingPairChangesSubject = PublishSubject.create()
         val request = Request.Builder()
             .url(BuildConfig.SOCKET_URL)
             .build()
@@ -37,8 +38,13 @@ class TradingPairWebSocketService @Inject constructor(
                 gson.fromJson(message, TradingPairDetailResponse::class.java)
             tradingPairChangesSubject.onNext(tradingPairDetailResponse)
         } catch (e: Exception) {
-
+            // No error is propagated to UI
+            // Individual message is discarded
         }
+    }
+
+    private fun dispatchError(throwable: Throwable) {
+        tradingPairChangesSubject.onError(throwable)
     }
 
     inner class TradingPairWebSocketListener(private val symbol: String) : WebSocketListener() {
@@ -52,6 +58,11 @@ class TradingPairWebSocketService @Inject constructor(
         override fun onMessage(webSocket: WebSocket, text: String) {
             super.onMessage(webSocket, text)
             dispatchMessage(text)
+        }
+
+        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+            super.onFailure(webSocket, t, response)
+            dispatchError(t)
         }
     }
 }
