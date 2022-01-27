@@ -5,6 +5,7 @@ import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.domain.mod
 import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.presentation.model.TradeUiModel
 import org.junit.Before
 import org.junit.Test
+import java.util.*
 import kotlin.test.assertEquals
 
 class TradeUIModelMapperTest {
@@ -13,6 +14,8 @@ class TradeUIModelMapperTest {
 
     @Before
     fun setUp() {
+        Locale.setDefault(Locale.US)
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"))
         mapper = TradeUIModelMapper()
     }
 
