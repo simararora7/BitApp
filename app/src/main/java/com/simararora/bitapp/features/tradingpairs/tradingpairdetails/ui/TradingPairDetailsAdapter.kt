@@ -1,8 +1,8 @@
 package com.simararora.bitapp.features.tradingpairs.tradingpairdetails.ui
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.simararora.bitapp.common.extensions.setTextStyle
 import com.simararora.bitapp.databinding.ItemTradingPairDetailBinding
@@ -33,15 +33,42 @@ class TradingPairDetailsAdapter : RecyclerView.Adapter<TradingPairDetailsViewHol
 
     override fun getItemCount() = tradingPairDetailItemList.size
 
-    @SuppressLint("NotifyDataSetChanged")
     fun updateTradingPairDetailItems(
         tradingPairDetailItemList: List<TradingPairDetailItemUiModel>
     ) {
+        val oldTradingPairDetailItemList = this.tradingPairDetailItemList
         this.tradingPairDetailItemList = tradingPairDetailItemList
-        notifyDataSetChanged()
+        DiffUtil.calculateDiff(
+            TradingPairDetailsDiffUtil(
+                oldTradingPairDetailItemList,
+                this.tradingPairDetailItemList
+            )
+        ).dispatchUpdatesTo(this)
     }
 
     class TradingPairDetailsViewHolder(
         val binding: ItemTradingPairDetailBinding
     ) : RecyclerView.ViewHolder(binding.root)
+
+    class TradingPairDetailsDiffUtil(
+        private val oldItems: List<TradingPairDetailItemUiModel>,
+        private val newItems: List<TradingPairDetailItemUiModel>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int {
+            return oldItems.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newItems.size
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldItems[oldItemPosition].labelRes == newItems[newItemPosition].labelRes
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldItems[oldItemPosition] == newItems[newItemPosition]
+        }
+    }
 }

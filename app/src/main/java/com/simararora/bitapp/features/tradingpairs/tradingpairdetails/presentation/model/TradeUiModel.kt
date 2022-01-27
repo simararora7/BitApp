@@ -3,6 +3,7 @@ package com.simararora.bitapp.features.tradingpairs.tradingpairdetails.presentat
 import androidx.annotation.StyleRes
 
 data class TradeUiModel(
+    val id: Long,
     val amount: String,
     val price: String,
     val displayTime: String,

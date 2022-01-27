@@ -3,6 +3,7 @@ package com.simararora.bitapp.features.tradingpairs.tradingpairlist.ui
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.simararora.bitapp.common.extensions.setTextStyle
 import com.simararora.bitapp.databinding.ItemTradingPairBinding
@@ -40,11 +41,35 @@ class TradingPairListAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateTradingPairs(tradingPairs: List<TradingPairUIModel>) {
+        val oldTradingPairs = this.tradingPairs
         this.tradingPairs = tradingPairs
-        notifyDataSetChanged()
+        DiffUtil.calculateDiff(TradingPairDiffUtil(oldTradingPairs, this.tradingPairs))
+            .dispatchUpdatesTo(this)
     }
 
     class TradingPairViewHolder(
         val binding: ItemTradingPairBinding
     ) : RecyclerView.ViewHolder(binding.root)
+
+    class TradingPairDiffUtil(
+        private val oldItems: List<TradingPairUIModel>,
+        private val newItems: List<TradingPairUIModel>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int {
+            return oldItems.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newItems.size
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldItems[oldItemPosition].symbol == newItems[newItemPosition].symbol
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldItems[oldItemPosition] == newItems[newItemPosition]
+        }
+    }
 }

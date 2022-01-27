@@ -15,6 +15,7 @@ class TradeUIModelMapper @Inject constructor() : Mapper<Trade, TradeUiModel>() {
     override fun map(input: Trade): TradeUiModel {
         return with(input) {
             TradeUiModel(
+                id = id,
                 amount = formatCurrency(amount),
                 price = formatCurrency(price),
                 displayTime = formatTime(TimeFormat.HH_MM_SS_AA, timestamp),
