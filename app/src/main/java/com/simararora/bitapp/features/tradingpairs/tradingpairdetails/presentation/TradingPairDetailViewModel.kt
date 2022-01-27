@@ -19,7 +19,6 @@ import com.simararora.bitapp.features.tradingpairs.tradingpairlist.presentation.
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-
 @TradingPairDetailScope
 class TradingPairDetailViewModel @Inject constructor(
     private val tradingPairDetailUseCase: TradingPairDetailUseCase,
@@ -52,7 +51,7 @@ class TradingPairDetailViewModel @Inject constructor(
         get() = tradesLiveData
 
     fun handleAction(action: TradingPairDetailAction) {
-        when(action) {
+        when (action) {
             is LoadTradingPairDetails -> updateTradingPair(action.symbol)
         }.exhaustive()
     }
@@ -99,7 +98,7 @@ class TradingPairDetailViewModel @Inject constructor(
             .subscribeOn(schedulersProvider.io)
             .map(tradeUIModelMapper::mapList)
             .map<ViewState<List<TradeUiModel>>> { ViewState.Success(it) }
-            .startWith (ViewState.Loading())
+            .startWith(ViewState.Loading())
             .onErrorReturn {
                 ViewState.Error(it)
             }.subscribe {

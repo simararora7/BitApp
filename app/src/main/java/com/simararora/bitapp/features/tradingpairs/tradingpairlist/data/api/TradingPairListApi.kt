@@ -18,6 +18,5 @@ interface TradingPairListApi {
 
         fun build(retrofit: Retrofit): TradingPairListApi =
             retrofit.create(TradingPairListApi::class.java)
-
     }
 }

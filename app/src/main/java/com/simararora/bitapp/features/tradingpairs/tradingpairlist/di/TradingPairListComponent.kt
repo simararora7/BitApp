@@ -30,6 +30,5 @@ interface TradingPairListComponent {
                 .tradingPairListFragment(tradingPairListFragment)
                 .appDeps(BitAppApplication.appComponent)
                 .build()
-
     }
 }

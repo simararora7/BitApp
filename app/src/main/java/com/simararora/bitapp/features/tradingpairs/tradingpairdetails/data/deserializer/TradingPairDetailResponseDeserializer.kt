@@ -38,7 +38,7 @@ class TradingPairDetailResponseDeserializer @Inject constructor() :
                         lastPrice = fields[6],
                         volume = fields[7],
                         high = fields[8],
-                        low = fields[9],
+                        low = fields[9]
                     )
                 }
             }

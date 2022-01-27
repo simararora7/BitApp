@@ -13,7 +13,7 @@ interface SchedulersProvider {
 }
 
 @Singleton
-class DefaultSchedulersProvider @Inject constructor(): SchedulersProvider {
+class DefaultSchedulersProvider @Inject constructor() : SchedulersProvider {
 
     override val io: Scheduler
         get() = Schedulers.io()

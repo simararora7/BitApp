@@ -18,7 +18,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
-
 @RunWith(MockitoJUnitRunner::class)
 class TradingPairListRepositoryImplTest {
 
@@ -58,7 +57,7 @@ class TradingPairListRepositoryImplTest {
                         tradingPairResponse1,
                         TickerResponse.Unknown,
                         tradingPairResponse2,
-                        TickerResponse.Unknown,
+                        TickerResponse.Unknown
                     )
                 )
             )

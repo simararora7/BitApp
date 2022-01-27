@@ -45,6 +45,5 @@ class TradingPairDetailsRepositoryImpl @Inject constructor(
     override fun gatAllTradingPairs(): Single<List<TradingPair>> {
         return Single.fromCallable { tradingPairListInMemoryCache.getCachedTradingPairList() }
             .map(tradingPairResponseMapper::mapList)
-
     }
 }

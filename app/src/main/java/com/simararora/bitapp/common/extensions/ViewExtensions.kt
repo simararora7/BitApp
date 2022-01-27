@@ -51,7 +51,6 @@ inline fun <reified T> Spinner.setOnItemSelectedListener(
         }
 
         override fun onNothingSelected(adapterView: AdapterView<*>) {
-
         }
     }
 }

@@ -88,7 +88,7 @@ class TradingPairDetailViewModelTest {
 
         val tradingPairs = listOf(
             Mockito.mock(TradingPair::class.java),
-            Mockito.mock(TradingPair::class.java),
+            Mockito.mock(TradingPair::class.java)
         )
 
         val tradingPairUIModel1 = Mockito.mock(TradingPairUIModel::class.java)
@@ -220,7 +220,6 @@ class TradingPairDetailViewModelTest {
         verify(tradesObserver).onChanged(ViewState.Loading())
         verify(tradesObserver).onChanged(ViewState.Error(throwable))
     }
-
 
     @After
     fun tearDown() {

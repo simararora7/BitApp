@@ -53,11 +53,11 @@ dependencies {
     // Network
     val okhttpVersion = "4.9.1"
     val retrofitVersion = "2.9.0"
-    implementation("com.squareup.retrofit2:retrofit:${retrofitVersion}")
-    implementation("com.squareup.retrofit2:converter-gson:${retrofitVersion}")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}")
-    implementation("com.squareup.okhttp3:okhttp:${okhttpVersion}")
-    implementation("com.squareup.okhttp3:logging-interceptor:${okhttpVersion}")
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
+    implementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
+    implementation("com.squareup.okhttp3:logging-interceptor:$okhttpVersion")
 
     // RxJava
     implementation("io.reactivex.rxjava2:rxjava:2.2.21")
@@ -66,9 +66,9 @@ dependencies {
 
     // Dagger
     val daggerVersion = "2.33"
-    implementation("com.google.dagger:dagger:${daggerVersion}")
-    kapt("com.google.dagger:dagger-compiler:${daggerVersion}")
-    kapt("com.google.dagger:dagger-android-processor:${daggerVersion}")
+    implementation("com.google.dagger:dagger:$daggerVersion")
+    kapt("com.google.dagger:dagger-compiler:$daggerVersion")
+    kapt("com.google.dagger:dagger-android-processor:$daggerVersion")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
