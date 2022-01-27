@@ -69,4 +69,12 @@ dependencies {
     implementation("com.google.dagger:dagger:${daggerVersion}")
     kapt("com.google.dagger:dagger-compiler:${daggerVersion}")
     kapt("com.google.dagger:dagger-android-processor:${daggerVersion}")
+
+    // Testing
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    testImplementation("org.mockito:mockito-core:3.10.0")
+    testImplementation("org.mockito:mockito-inline:3.10.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.4.32")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
 }
