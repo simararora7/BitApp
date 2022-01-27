@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"/>
 
         <FrameLayout
+            android:id="@+id/flDetails"
             android:layout_marginTop="@dimen/spacing_4x"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,8 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_4x"
+            android:minHeight="280dp"
             android:background="@drawable/bg_trading_pair_card"
-
             android:paddingBottom="@dimen/spacing_4x"
             android:paddingTop="@dimen/spacing_4x">
 
@@ -60,21 +61,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_4x"
-                android:minHeight="280dp"
                 android:overScrollMode="never"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/header"
-                app:layout_constraintVertical_bias="0" />
+              />
 
             <include
                 android:id="@+id/header"
+                app:layout_constraintVertical_bias="0"
                 layout="@layout/item_trade_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_2x"
-                app:layout_constraintBottom_toTopOf="@+id/rvTrades"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

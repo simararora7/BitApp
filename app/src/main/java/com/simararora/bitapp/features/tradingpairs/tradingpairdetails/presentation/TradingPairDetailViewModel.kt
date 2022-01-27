@@ -1,11 +1,15 @@
 package com.simararora.bitapp.features.tradingpairs.tradingpairdetails.presentation
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.simararora.bitapp.common.SchedulersProvider
+import com.simararora.bitapp.common.ViewState
+import com.simararora.bitapp.common.extensions.exhaustive
 import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.di.TradingPairDetailScope
 import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.domain.usecase.TradingPairDetailUseCase
+import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.presentation.TradingPairDetailAction.LoadTradingPairDetails
 import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.presentation.mapper.TradeUIModelMapper
 import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.presentation.mapper.TradingPairDetailItemUiModelMapper
 import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.presentation.model.TradeUiModel
@@ -25,7 +29,8 @@ class TradingPairDetailViewModel @Inject constructor(
     private val tradeUIModelMapper: TradeUIModelMapper
 ) : ViewModel() {
 
-    private lateinit var currentSelectedSymbol: String
+    @VisibleForTesting
+    internal lateinit var currentSelectedSymbol: String
 
     // Trading Pair List Stream
     private var tradingPairListDisposable: Disposable? = null
@@ -35,24 +40,32 @@ class TradingPairDetailViewModel @Inject constructor(
 
     // Trading Pair Details Stream
     private var tradingPairDetailsDisposable: Disposable? = null
-    private val tradingPairDetailLiveData = MutableLiveData<List<TradingPairDetailItemUiModel>>()
-    val tradingPairDetailChanges: LiveData<List<TradingPairDetailItemUiModel>>
+    private val tradingPairDetailLiveData =
+        MutableLiveData<ViewState<List<TradingPairDetailItemUiModel>>>()
+    val tradingPairDetailChanges: LiveData<ViewState<List<TradingPairDetailItemUiModel>>>
         get() = tradingPairDetailLiveData
 
     // Trades Stream
     private var tradesDisposable: Disposable? = null
-    private val tradesLiveData = MutableLiveData<List<TradeUiModel>>()
-    val tradesChanges: LiveData<List<TradeUiModel>>
+    private val tradesLiveData = MutableLiveData<ViewState<List<TradeUiModel>>>()
+    val tradesChanges: LiveData<ViewState<List<TradeUiModel>>>
         get() = tradesLiveData
 
-    fun setTradingPair(symbol: String) {
+    fun handleAction(action: TradingPairDetailAction) {
+        when(action) {
+            is LoadTradingPairDetails -> updateTradingPair(action.symbol)
+        }.exhaustive()
+    }
+
+    private fun updateTradingPair(symbol: String) {
         this.currentSelectedSymbol = symbol
         observeTradingPairListChanges()
         observeTradeChanges()
         observeTradingPairDetailChanges()
     }
 
-    private fun observeTradingPairListChanges() {
+    @VisibleForTesting
+    internal fun observeTradingPairListChanges() {
         tradingPairListDisposable?.dispose()
         tradingPairListDisposable = tradingPairDetailUseCase.gatAllTradingPairs()
             .subscribeOn(schedulersProvider.io)
@@ -63,32 +76,33 @@ class TradingPairDetailViewModel @Inject constructor(
             }
     }
 
-    private fun observeTradingPairDetailChanges() {
-        // Terminate Existing Stream for old trading pair(if-any)
+    @VisibleForTesting
+    internal fun observeTradingPairDetailChanges() {
         tradingPairDetailsDisposable?.dispose()
         tradingPairDetailsDisposable =
             tradingPairDetailUseCase.getTradingPairDetails(currentSelectedSymbol)
                 .subscribeOn(schedulersProvider.io)
-                .doOnSubscribe {
-                    // Reset UI for old trading pair(if-any)
-                    tradingPairDetailLiveData.postValue(emptyList())
-                }.map(tradingPairDetailItemUiModelMapper::map)
-                .subscribe {
+                .map(tradingPairDetailItemUiModelMapper::map)
+                .map<ViewState<List<TradingPairDetailItemUiModel>>> { ViewState.Success(it) }
+                .startWith(ViewState.Loading())
+                .onErrorReturn {
+                    ViewState.Error(it)
+                }.subscribe {
                     tradingPairDetailLiveData.postValue(it)
                 }
     }
 
-    private fun observeTradeChanges() {
-        // Terminate Existing Stream for old trading pair(if-any)
+    @VisibleForTesting
+    internal fun observeTradeChanges() {
         tradesDisposable?.dispose()
         tradesDisposable = tradingPairDetailUseCase.getTopTrades(currentSelectedSymbol)
             .subscribeOn(schedulersProvider.io)
-            .doOnSubscribe {
-                // Reset UI for old trading pair(if-any)
-                tradesLiveData.postValue(emptyList())
-            }
             .map(tradeUIModelMapper::mapList)
-            .subscribe {
+            .map<ViewState<List<TradeUiModel>>> { ViewState.Success(it) }
+            .startWith (ViewState.Loading())
+            .onErrorReturn {
+                ViewState.Error(it)
+            }.subscribe {
                 tradesLiveData.postValue(it)
             }
     }

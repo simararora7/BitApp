@@ -43,7 +43,7 @@ class TradingPairDetailItemUiModelMapper @Inject constructor() :
                     labelRes = R.string.trade_detail_24h_range,
                     value = get24HourRange(input),
                     valueTextStyle = R.style.BitAppText_B1
-                ),
+                )
             )
         }
     }
