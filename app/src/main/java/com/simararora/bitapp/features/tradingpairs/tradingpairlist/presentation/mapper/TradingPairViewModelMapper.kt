@@ -2,12 +2,11 @@ package com.simararora.bitapp.features.tradingpairs.tradingpairlist.presentation
 
 import com.simararora.bitapp.R
 import com.simararora.bitapp.common.Mapper
-import com.simararora.bitapp.features.tradingpairs.tradingpairlist.di.TradingPairListScope
+import com.simararora.bitapp.common.utils.formatCurrency
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.domain.model.TradingPair
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.presentation.model.TradingPairUIModel
 import javax.inject.Inject
 
-@TradingPairListScope
 class TradingPairViewModelMapper @Inject constructor() :
     Mapper<TradingPair, TradingPairUIModel>() {
     override fun map(input: TradingPair): TradingPairUIModel {
@@ -16,7 +15,7 @@ class TradingPairViewModelMapper @Inject constructor() :
                 symbol = symbol,
                 formattedSymbol = formatSymbol(symbol),
                 dailyChangeRelative = formatDailyChangeRelative(dailyChangeRelative),
-                lastPrice = formatLastPrice(lastPrice),
+                lastPrice = formatCurrency(lastPrice),
                 bodyTextStyle = getBodyTextStyle(dailyChangeRelative)
             )
         }
@@ -38,16 +37,12 @@ class TradingPairViewModelMapper @Inject constructor() :
     }
 
     private fun formatDailyChangeRelative(dailyChangeRelative: Double): String {
-        val percentage = if (dailyChangeRelative > 0) {
+        val percentage = if (dailyChangeRelative >= 0) {
             dailyChangeRelative * 100
         } else {
             -1 * dailyChangeRelative * 100
         }
         return String.format("%.2f%%", percentage)
-    }
-
-    private fun formatLastPrice(lastPrice: Double): String {
-        return String.format("%.4f", lastPrice)
     }
 
     private fun getBodyTextStyle(dailyChangeRelative: Double) = when {

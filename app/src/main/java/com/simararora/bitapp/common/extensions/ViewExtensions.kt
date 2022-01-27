@@ -2,6 +2,8 @@ package com.simararora.bitapp.common.extensions
 
 import android.os.Build
 import android.view.View
+import android.widget.AdapterView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.StyleRes
 import com.google.android.material.snackbar.Snackbar
@@ -32,4 +34,24 @@ fun View.showSnackBar(
             setAction(action) { actionHandler?.invoke() }
         }
     }.show()
+}
+
+inline fun <reified T> Spinner.setOnItemSelectedListener(
+    crossinline onItemSelected: (T) -> Unit
+) {
+    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(
+            adapterView: AdapterView<*>,
+            childView: View,
+            position: Int,
+            id: Long
+        ) {
+            val item = adapterView.adapter.getItem(position) as T
+            onItemSelected.invoke(item)
+        }
+
+        override fun onNothingSelected(adapterView: AdapterView<*>) {
+
+        }
+    }
 }

@@ -18,6 +18,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "SERVER_URL", "\"https://api-pub.bitfinex.com\"")
+        buildConfigField("String", "SOCKET_URL", "\"wss://api-pub.bitfinex.com/ws/2\"")
     }
 
     compileOptions {

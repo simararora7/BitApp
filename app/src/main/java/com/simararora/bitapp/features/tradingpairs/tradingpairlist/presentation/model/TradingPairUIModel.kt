@@ -8,4 +8,6 @@ data class TradingPairUIModel(
     val lastPrice: String,
     val dailyChangeRelative: String,
     @StyleRes val bodyTextStyle: Int
-)
+) {
+    var isSelected: Boolean = false
+}

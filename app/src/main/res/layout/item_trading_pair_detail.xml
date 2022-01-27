@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingStart="@dimen/spacing_4x"
+    android:paddingEnd="@dimen/spacing_4x"
+    android:paddingTop="@dimen/spacing_4x"
+    android:paddingBottom="@dimen/spacing_1x"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvLabel"
+        style="@style/BitAppText.H1"
+        android:layout_width="@dimen/match_constraint"
+        android:lines="1"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tvValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Open Price" />
+
+    <TextView
+        android:id="@+id/tvValue"
+        style="@style/BitAppText.B1"
+        android:layout_width="@dimen/match_constraint"
+        android:lines="2"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvLabel"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/tvLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvLabel"
+        tools:text="Open Price Value" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

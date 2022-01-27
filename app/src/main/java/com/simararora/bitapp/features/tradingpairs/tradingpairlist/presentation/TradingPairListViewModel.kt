@@ -44,7 +44,7 @@ class TradingPairListViewModel @Inject constructor(
     }
 
     private fun getTradingPairs() {
-        getTradingPairsDisposable = getTradingPairs.execute("ALL")
+        getTradingPairsDisposable = getTradingPairs.getTradingPairList("ALL")
             .subscribeOn(schedulersProvider.io)
             .map(tradingPairViewModelMapper::mapList)
             .map<ViewState<List<TradingPairUIModel>>> { Success(it) }
@@ -54,5 +54,10 @@ class TradingPairListViewModel @Inject constructor(
             .subscribe { viewState ->
                 tradingPairStateChangesLiveData?.postValue(viewState)
             }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        getTradingPairsDisposable?.dispose()
     }
 }

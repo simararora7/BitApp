@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">BitApp</string>
+
+    <!--  Trading Pair Details  -->
+    <string name="trade_detail_open_price">"Open Price"</string>
+    <string name="trade_detail_daily_change">Daily Change</string>
+    <string name="trade_detail_top_bid">Top Bid</string>
+    <string name="trade_detail_top_ask">Top Ask</string>
+    <string name="trade_detail_last_price">Last Price</string>
+    <string name="trade_detail_24h_range">24hr range</string>
+
+    <!--  Trades  -->
+    <string name="trade_header_amount">Amount</string>
+    <string name="trade_header_price">Price</string>
+    <string name="trade_header_time">Time</string>
 </resources>

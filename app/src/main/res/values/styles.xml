@@ -18,11 +18,11 @@
     </style>
 
     <style name="BitAppText.B1.Negative" parent="BitAppText.B1">
-        <item name="android:textColor">@color/text_body_positive</item>
+        <item name="android:textColor">@color/text_body_negative</item>
     </style>
 
     <style name="BitAppText.B1.Positive" parent="BitAppText.B1">
-        <item name="android:textColor">@color/text_body_negative</item>
+        <item name="android:textColor">@color/text_body_positive</item>
     </style>
 
 </resources>

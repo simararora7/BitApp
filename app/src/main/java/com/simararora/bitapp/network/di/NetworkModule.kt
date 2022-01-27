@@ -1,8 +1,12 @@
-package com.simararora.bitapp.network
+package com.simararora.bitapp.network.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.simararora.bitapp.BuildConfig
+import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.data.deserializer.TradeResponseDeserializer
+import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.data.deserializer.TradingPairDetailResponseDeserializer
+import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.data.model.TradeResponse
+import com.simararora.bitapp.features.tradingpairs.tradingpairdetails.data.model.TradingPairDetailResponse
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.data.deserializer.TickerResponseDeserializer
 import com.simararora.bitapp.features.tradingpairs.tradingpairlist.data.model.TickerResponse
 import dagger.Module
@@ -27,11 +31,21 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideGson(
-        tickerResponseDeserializer: TickerResponseDeserializer
+        tickerResponseDeserializer: TickerResponseDeserializer,
+        tradingPairDetailResponseDeserializer: TradingPairDetailResponseDeserializer,
+        tradeResponseDeserializer: TradeResponseDeserializer
     ): Gson {
         return GsonBuilder()
-            .registerTypeAdapter(TickerResponse::class.java, tickerResponseDeserializer)
-            .create()
+            .registerTypeAdapter(
+                TickerResponse::class.java,
+                tickerResponseDeserializer
+            ).registerTypeAdapter(
+                TradingPairDetailResponse::class.java,
+                tradingPairDetailResponseDeserializer
+            ).registerTypeAdapter(
+                TradeResponse::class.java,
+                tradeResponseDeserializer
+            ).create()
     }
 
     @Provides

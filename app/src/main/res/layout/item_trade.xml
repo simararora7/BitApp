@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/spacing_2x"
+    android:paddingEnd="@dimen/spacing_4x"
+    android:paddingStart="@dimen/spacing_4x">
+
+    <TextView
+        android:id="@+id/tvAmount"
+        style="@style/BitAppText.B1"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Amount" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        style="@style/BitAppText.B1"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvTime"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/tvAmount"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Open Price Value" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        style="@style/BitAppText.B1"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/tvPrice"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Open Price Value" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
